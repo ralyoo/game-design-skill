@@ -25,16 +25,38 @@ skills/game-design/
 
 ## Install
 
-The skill is a plain folder in the open [Agent Skills](https://agentskills.io) format (`SKILL.md` with YAML frontmatter plus supporting files). Nothing in it depends on a particular agent, IDE, or operating system.
+The skill is a plain folder in the open [Agent Skills](https://agentskills.io) format (`SKILL.md` with YAML frontmatter plus supporting files). Nothing in it depends on a particular agent, IDE, or operating system. Pick one:
 
-- **Agents that support skills:** copy `skills/game-design/` into the agent's skills directory. For Claude Code that is `~/.claude/skills/` (personal) or `.claude/skills/` (per project). For Claude apps, zip the `game-design` folder and upload it as a skill.
-- **Other agents:** add the folder to your project and tell the agent to read `skills/game-design/SKILL.md` before design work (for example from `AGENTS.md` or your system prompt).
-- **Humans:** read `SKILL.md` top to bottom; it works as a design handbook too.
+**Any agent (Claude Code, Codex, Cursor, and others), one command:**
 
 ```bash
-git clone https://github.com/ralyoo/game-design-skill.git
-cp -r game-design-skill/skills/game-design ~/.claude/skills/   # adjust for your agent
+npx skills add ralyoo/game-design-skill
 ```
+
+The [`skills`](https://www.npmjs.com/package/skills) CLI asks which agents to install into and whether it is for this project or global. Add `-g` for global, `-a <agent>` to pick the agent, `-y` to skip prompts. Update later with `npx skills update`.
+
+**Claude Code, as a plugin** (gets updates through `/plugin`):
+
+```
+/plugin install game-design --marketplace ralyoo/game-design-skill
+```
+
+On older Claude Code versions, use two steps: `/plugin marketplace add ralyoo/game-design-skill`, then `/plugin install game-design@ralyoo`.
+
+**Claude apps (claude.ai, desktop):** download [`game-design.zip`](https://github.com/ralyoo/game-design-skill/releases/latest/download/game-design.zip) from the latest release and upload it as a skill.
+
+**No Node, no git (macOS, Linux, WSL, Git Bash):** download only the skill folder into your agent's skills directory (this example targets Claude Code's personal folder):
+
+```bash
+mkdir -p ~/.claude/skills && curl -fsSL https://codeload.github.com/ralyoo/game-design-skill/tar.gz/main \
+  | tar -xz -C ~/.claude/skills --strip-components=2 game-design-skill-main/skills/game-design
+```
+
+**Agents without skill support:** add the folder to your project and tell the agent to read `skills/game-design/SKILL.md` before design work (for example from `AGENTS.md` or your system prompt).
+
+**Humans:** read `SKILL.md` top to bottom; it works as a design handbook too.
+
+As with any skill, review it before use: skills run with your agent's permissions.
 
 ## Generation providers (optional)
 

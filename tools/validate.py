@@ -2,8 +2,10 @@
 
 - Every skills/<dir>/SKILL.md has frontmatter with a valid `name` (matching <dir>) and `description`.
 - Every skill-relative path mentioned in backticks inside a skill exists.
+- .claude-plugin/marketplace.json (if present) is valid JSON and every listed skill path exists.
 - No tracked text file contains something that looks like a secret.
 """
+import json
 import pathlib
 import re
 import sys
@@ -62,6 +64,21 @@ def check_skill(skill_dir, errors):
                 errors.append(f"{md.relative_to(ROOT)}: referenced path `{ref}` does not exist")
 
 
+def check_marketplace(errors):
+    path = ROOT / ".claude-plugin" / "marketplace.json"
+    if not path.exists():
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        errors.append(f".claude-plugin/marketplace.json: invalid JSON ({e})")
+        return
+    for plugin in data.get("plugins", []):
+        for skill in plugin.get("skills", []):
+            if not (ROOT / skill / "SKILL.md").is_file():
+                errors.append(f".claude-plugin/marketplace.json: plugin {plugin.get('name')!r} lists missing skill {skill!r}")
+
+
 def scan_secrets(errors):
     for path in ROOT.rglob("*"):
         if not path.is_file() or any(part in SKIP_DIRS for part in path.relative_to(ROOT).parts):
@@ -87,6 +104,7 @@ def main():
         errors.append("no skills found under skills/")
     for skill_dir in skills:
         check_skill(skill_dir, errors)
+    check_marketplace(errors)
     scan_secrets(errors)
     for e in errors:
         print("error:", e)
