@@ -4,6 +4,10 @@ All notable changes to this skill are recorded here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Added
+- One-command install: `npx skills add`, a Claude Code plugin marketplace (`.claude-plugin/marketplace.json`), a release workflow that publishes `game-design.zip`, and a curl/tar fallback.
+- `tools/validate.py` checks the marketplace manifest.
+
 ## [0.1.0] - 2026-11-12
 
 ### Added

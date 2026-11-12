@@ -1,0 +1,22 @@
+{
+  "name": "ralyoo",
+  "owner": {
+    "name": "Ralyoo"
+  },
+  "metadata": {
+    "description": "Game design skills from Ralyoo, usable for any game, engine, or platform.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "game-design",
+      "source": "./",
+      "description": "Gated game design workflow from idea to assets and juice, with player psychology, platform profiles, templates, and an optional provider-agnostic asset and audio pipeline.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": ["game-design", "gdd", "game-feel", "assets", "audio"],
+      "strict": false,
+      "skills": ["./skills/game-design"]
+    }
+  ]
+}
